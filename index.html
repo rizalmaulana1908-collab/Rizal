@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NBS AI Trading</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--bg:#080d19;--card:#111827;--line:#273449;--text:#edf2ff;--muted:#92a0b8;--green:#3be0a0;--red:#ff6f83;--blue:#58c7ff;--purple:#ca8cff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 5% 5%,#122b48,transparent 35%),radial-gradient(circle at 95% 5%,#3a1c32,transparent 34%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;padding:18px}
+.wrap{max-width:1200px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.brand{font-size:clamp(22px,4vw,34px);font-weight:850;letter-spacing:-1px}.brand span{color:var(--purple)}.sub,.muted{color:var(--muted);font-size:12px}.live{border:1px solid var(--line);border-radius:30px;padding:10px 14px;font-size:12px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:7px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.card{background:linear-gradient(145deg,rgba(19,28,44,.96),rgba(13,17,29,.96));border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 10px 30px #0002;min-width:0}.label{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}.value{font-size:clamp(22px,3vw,32px);font-weight:800;margin:5px 0}.green{color:var(--green)}.red{color:var(--red)}.blue{color:var(--blue)}.purple{color:var(--purple)}.wide{grid-column:span 2}.section{margin-top:12px}.panel-title{font-size:13px;font-weight:750;margin-bottom:14px;display:flex;justify-content:space-between;gap:8px}.chartbox{height:270px}.log{display:flex;flex-direction:column;gap:9px;max-height:280px;overflow:auto;font-size:12px}.row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #263044;padding:8px 0}.pill{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:5px 9px;font-size:11px}.agents{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.agent{text-align:center;padding:18px 8px}.orb{width:38px;height:38px;border-radius:50%;margin:0 auto 10px;background:linear-gradient(135deg,#e8f9ff,#719bb1);box-shadow:0 0 25px #64d8ff2b}.agent b{font-size:12px}.foot{margin:16px 2px 4px;color:var(--muted);font-size:11px;line-height:1.6}.btn{background:#17253a;color:var(--text);border:1px solid var(--line);padding:8px 12px;border-radius:10px;font-size:12px}
+@media(max-width:760px){body{padding:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{padding:13px;border-radius:15px}.wide{grid-column:span 2}.chartbox{height:220px}.agents{grid-template-columns:repeat(2,1fr)}.top{align-items:flex-start}.value{font-size:24px}}
+</style></head>
+<body><div class="wrap">
+<header class="top"><div><div class="brand">NBS <span>AI TRADING</span></div><div class="sub">Naya Bitcoin System · PAPER TRADING MODE</div></div><div class="live"><span class="dot"></span><b id="live">CONNECTING</b><div class="sub" id="updated">Menunggu data...</div></div></header>
+<div class="grid">
+<div class="card"><div class="label">Paper Balance</div><div class="value" id="balance">$1,000.00</div><div class="muted">Modal simulasi, bukan uang sungguhan</div></div>
+<div class="card"><div class="label">Total PnL</div><div class="value green" id="pnl">+$0.00</div><div class="muted">Termasuk PnL posisi terbuka</div></div>
+<div class="card"><div class="label">BTC / USD</div><div class="value blue" id="price">—</div><div class="muted">Sumber: CoinGecko</div></div>
+<div class="card"><div class="label">Win Rate</div><div class="value purple" id="winrate">0%</div><div class="muted" id="record">0 win · 0 loss</div></div>
+<div class="card wide"><div class="panel-title">BALANCE HISTORY <span class="pill" id="signal">SIGNAL: WAIT</span></div><div class="chartbox"><canvas id="chart"></canvas></div></div>
+<div class="card wide"><div class="panel-title">PAPER TRADING ACTIVITY <button class="btn" onclick="resetPaper()">Reset simulasi</button></div><div class="log" id="trades"><div class="muted">Belum ada transaksi tertutup.</div></div></div>
+<div class="card wide"><div class="panel-title">OPEN PAPER POSITION</div><div id="position" class="muted">Belum ada posisi terbuka.</div></div>
+<div class="card wide"><div class="panel-title">SYSTEM STATUS</div><div class="row"><span>Price feed</span><b id="feed">Menunggu...</b></div><div class="row"><span>Strategy</span><b>EMA/RSI roadmap · momentum demo aktif</b></div><div class="row"><span>Execution</span><b class="green">SIMULASI SAJA</b></div><div class="row"><span>Update interval</span><b>60 detik (minimum)</b></div></div>
+</div>
+<div class="section"><div class="panel-title">NBS ANALYSIS MODULES</div><div class="agents">
+<div class="card agent"><div class="orb"></div><b>ODEN</b><div class="sub">Trend Monitor</div></div>
+<div class="card agent"><div class="orb"></div><b>VIRA</b><div class="sub">Momentum</div></div>
+<div class="card agent"><div class="orb"></div><b>KESH</b><div class="sub">Risk Guard</div></div>
+<div class="card agent"><div class="orb"></div><b>NOLU</b><div class="sub">Paper Execution</div></div>
+</div></div>
+<div class="foot">Peringatan: ini prototipe dashboard dan simulasi strategi sederhana, bukan saran finansial atau AI yang telah tervalidasi. Hasil simulasi tidak menjamin hasil trading nyata. Jangan masukkan API key exchange atau kredensial rahasia ke dashboard ini.</div>
+</div>
+<script>
+let chart, historyLabels=[], historyValues=[];
+function money(n){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(Number(n||0))}
+function shortTime(s){if(!s)return '—';try{return new Date(s).toLocaleString()}catch(e){return s}}
+function initChart(){const ctx=document.getElementById('chart');chart=new Chart(ctx,{type:'line',data:{labels:historyLabels,datasets:[{data:historyValues,borderColor:'#58c7ff',backgroundColor:'rgba(65,166,255,.14)',fill:true,tension:.25,pointRadius:0,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8290a8',maxTicksLimit:5},grid:{color:'rgba(130,144,168,.08)'}},y:{ticks:{color:'#8290a8'},grid:{color:'rgba(130,144,168,.1)'}}}}})}
+async function refresh(){try{const r=await fetch('/api/status',{cache:'no-store'});const d=await r.json();
+document.getElementById('live').textContent=d.price_error?'DATA ISSUE':'LIVE';document.getElementById('updated').textContent='Update: '+shortTime(d.last_update);
+document.getElementById('balance').textContent=money(d.balance);const p=document.getElementById('pnl');p.textContent=(d.total_pnl>=0?'+':'')+money(d.total_pnl);p.className='value '+(d.total_pnl>=0?'green':'red');
+document.getElementById('price').textContent=d.price?money(d.price):'—';document.getElementById('winrate').textContent=d.win_rate+'%';document.getElementById('record').textContent=`${d.wins} win · ${d.losses} loss · ${d.closed} closed`;
+document.getElementById('signal').textContent='SIGNAL: '+d.signal;document.getElementById('feed').textContent=d.price_error?'Error: '+d.price_error:(d.price?'Connected':'Waiting');
+if(d.price){historyLabels.push(new Date().toLocaleTimeString());historyValues.push(d.balance+d.unrealized_pnl);if(historyLabels.length>60){historyLabels.shift();historyValues.shift()}if(!chart)initChart();chart.update();}
+const t=document.getElementById('trades');t.innerHTML=d.trades.length?d.trades.map(x=>`<div class="row"><span>${x.direction} · ${x.reason}<br><span class="muted">${shortTime(x.time)}</span></span><b class="${x.pnl>=0?'green':'red'}">${x.pnl>=0?'+':''}${money(x.pnl)}</b></div>`).join(''):'<div class="muted">Belum ada transaksi tertutup. Sinyal dan transaksi simulasi akan muncul saat kondisi strategi terpenuhi.</div>';
+const pos=document.getElementById('position');if(d.open_trade){const x=d.open_trade;pos.innerHTML=`<div class="row"><span>Direction / Entry</span><b>${x.direction} · ${money(x.entry)}</b></div><div class="row"><span>Stop Loss</span><b class="red">${money(x.sl)}</b></div><div class="row"><span>Take Profit</span><b class="green">${money(x.tp)}</b></div><div class="row"><span>Qty (BTC)</span><b>${Number(x.qty).toFixed(6)}</b></div><div class="muted">Posisi simulasi; bukan order exchange.</div>`}else{pos.textContent='Belum ada posisi terbuka.'}
+}catch(e){document.getElementById('live').textContent='OFFLINE';document.getElementById('feed').textContent=String(e)}}
+async function resetPaper(){if(!confirm('Reset semua statistik Paper Trading?'))return;await fetch('/api/reset',{method:'POST'});historyLabels=[];historyValues=[];if(chart){chart.destroy();chart=null}refresh()}
+refresh();setInterval(refresh,15000);
+</script></body></html>
